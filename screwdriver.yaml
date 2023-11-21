@@ -1,0 +1,32 @@
+shared:
+  image: node:18
+ 
+jobs:
+  base:
+    requires: [ ~commit ]
+    steps:
+      - hello: echo "Hello"
+  A:
+    requires: [ base ]
+    steps:
+      - hello: echo "Hello"
+      - delay: sleep 200
+  B:
+    requires: [ base ]
+    steps:
+      - hello: echo "Hello"
+  C:
+    requires: [ base ]
+    steps:
+      - hello: echo "Hello"
+  D:
+    requires: [ base ]
+    steps:
+      - hello: echo "Hello"
+      - test: if [ -z "${TEST}" ]; then echo "FAILED"; exit 1; fi
+    secrets:
+      - TEST
+  TARGET:
+    requires: [ A,B,C,D ]
+    steps:
+      - hello: echo "Hello"
